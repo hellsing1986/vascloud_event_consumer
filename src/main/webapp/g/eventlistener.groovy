@@ -1,6 +1,7 @@
 import com.google.common.io.CharStreams
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
+import DbUtils
 
 ServletRequest req = request
 ServletResponse res = response
@@ -35,6 +36,7 @@ def requestBody = CharStreams.toString req.getReader()
  </COMMAND>
 </ACCESSGW>
 */
+def test = DbUtils.save 123
 def ACCESSGW = new XmlSlurper().parseText requestBody
 def retBody =
 """<ACCESSGW>
@@ -42,7 +44,7 @@ def retBody =
     <MESSAGE_TYPE>RESPONSE</MESSAGE_TYPE>
     <COMMAND>
         <error_id>0</error_id>
-        <error_desc>successfully</error_desc>
+        <error_desc>successfully ${test}</error_desc>
         <queueID>${ACCESSGW.COMMAND.queueID}</queueID>
         <msisdn>${ACCESSGW.COMMAND.msisdn}</msisdn>
         <service_id>${ACCESSGW.COMMAND.service_id}</service_id>
