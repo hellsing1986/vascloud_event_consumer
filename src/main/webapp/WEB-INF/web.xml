@@ -15,4 +15,10 @@
     <servlet-name>Groovy</servlet-name>
     <url-pattern>*.groovy</url-pattern>
   </servlet-mapping>
+
+    <filter-mapping>
+        <filter-name>rewriteGroovyFilter</filter-name>
+        <url-pattern>/g/*</url-pattern>
+        <!--<url-pattern>*.groovy</url-pattern>-->
+    </filter-mapping>
 </web-app>
