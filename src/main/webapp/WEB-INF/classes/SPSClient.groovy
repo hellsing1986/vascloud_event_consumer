@@ -7,11 +7,11 @@ class SPSClient {
     }
 
     def static postSPI(message){
-        def post = new URL("http://localhost:8080/axis/services/spi").openConnection()
+        def post = new URL("http://10.149.34.91:8080/axis/services/spi").openConnection()
         //def message = '{"message":"this is a message"}'
         post.requestMethod = "POST"
         post.doOutput = true
-        post.setRequestProperty("Authorization","Basic ")
+        post.setRequestProperty("Authorization","Basic bWlkZGxlV2FyZTptd2FyZSNybmQ=")
         post.setRequestProperty("Content-Type", "text/xml; charset=utf-8")
         post.setRequestProperty("SOAPAction","")
         post.outputStream.write message.getBytes("UTF-8")
@@ -51,7 +51,8 @@ class SPSClient {
             */
 
             String msg = Envelope.Body.getActiveServiceResponse.getActiveServiceReturn
-            return msg != null && msg.startsWith("0|")
+            String multiRef = Envelope.Body.multiRef
+            return  (multiRef != null && multiRef == "0") || (msg != null && msg == "0")
         }catch (Exception e){
             return false
         }
@@ -86,7 +87,8 @@ class SPSClient {
             </soapenv:Envelope>*/
 
             String msg = Envelope.Body.createSDPServicesResponse.createSDPServicesReturn
-            return msg
+            String multiRef = Envelope.Body.multiRef
+            return msg ?: multiRef
         }catch (Exception e){
             logger.error(e.getMessage(),e)
             return null
@@ -120,7 +122,8 @@ class SPSClient {
             </soapenv:Envelope>*/
 
             String msg = Envelope.Body.deleteSDPServicesResponse.deleteSDPServicesReturn
-            return msg
+            String multiRef = Envelope.Body.multiRef
+            return msg ?: multiRef
         }catch (Exception e){
             logger.error(e.getMessage(),e)
             return null
