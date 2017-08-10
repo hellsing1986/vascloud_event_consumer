@@ -7,20 +7,7 @@ class SPSClient {
     }
 
     def static postSPI(message){
-        def post = new URL("http://10.149.34.91:8080/axis/services/spi").openConnection()
-        //def message = '{"message":"this is a message"}'
-        post.requestMethod = "POST"
-        post.doOutput = true
-        post.setRequestProperty("Authorization","Basic bWlkZGxlV2FyZTptd2FyZSNybmQ=")
-        post.setRequestProperty("Content-Type", "text/xml; charset=utf-8")
-        post.setRequestProperty("SOAPAction","")
-        post.outputStream.write message.getBytes("UTF-8")
-        def postRC = post.responseCode
-        //println(postRC);
-        if(postRC == 200) {
-            return post.inputStream.text
-        }
-        return null
+        
     }
 
     def static testActiveService(msisdn,groupCode){
